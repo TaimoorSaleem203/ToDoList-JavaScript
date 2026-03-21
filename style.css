@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+    scroll-behavior: smooth;
+    font-family: "Poppins";
+    list-style: none;
+    text-decoration: none;
+}
+.section-container{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(112, 128, 144, 0.365);
+}
+.heading{
+    font-size: 1.8rem;
+    color: rgb(145, 0, 255);
+}
+.form-container{
+    position: relative;
+    background-color: white;
+    padding: 80px;
+    border-radius: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 0.5rem;
+    margin: 50px auto;
+    outline: 2px solid rgb(144, 0, 255);
+    outline-offset: 3px;
+    border: 2px dotted rgb(166, 50, 255);
+    box-shadow: 12px 10px 1px  rgba(0, 0, 0, 0.953);
+}
+.todo-input{
+    position: relative;
+    outline: none;
+    border: none;
+    padding: 8px 14px;
+    font-weight: 500;
+    border-radius: 1rem;
+    background-color: rgba(112, 128, 144, 0.164);
+}
+.add-btn{
+    position: absolute;
+    right: 80px;
+    border: none;
+    background-color: rgb(144, 0, 255);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+.add-btn:hover{
+    background-color: rgba(144, 0, 255, 0.878);
+}
+.add-btn:active{
+    transform: scale(0.98);
+}
+.todo-list{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 14px;
+}
+.todo-items{
+    position: relative;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    background-color: white;
+    padding: 60px 80px;
+    border-radius: 2rem;
+    text-align: center;
+    height: 100%;
+    gap: 0.5rem;
+    margin: 50px auto;
+    outline: 2px double rgb(144, 0, 255);
+    outline-offset: 3px;
+    border: 2px dotted rgb(166, 50, 255);
+    box-shadow: 5px 10px 1px  rgba(0, 0, 0, 0.953);
+}
