@@ -72,18 +72,28 @@
 }
 .todo-items{
     position: relative;
+    height: 100%;
     font-size: 1.2rem;
     font-weight: 600;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: white;
     padding: 60px 80px;
     border-radius: 2rem;
     text-align: center;
-    height: 100%;
     gap: 0.5rem;
     margin: 50px auto;
     outline: 2px double rgb(144, 0, 255);
     outline-offset: 3px;
     border: 2px dotted rgb(166, 50, 255);
     box-shadow: 5px 10px 1px  rgba(0, 0, 0, 0.953);
+}
+.delete-icon{
+    color: rgb(133, 0, 0);
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+.delete-icon:hover{
+    color: rgb(109, 0, 0);
 }
