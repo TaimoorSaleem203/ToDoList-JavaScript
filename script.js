@@ -1,56 +1,67 @@
 const taskInp = document.querySelector(".todo-input");
-const container = document.querySelector(".section-container");
 const taskList = document.querySelector(".todo-list");
-
 const addBtn = document.querySelector(".add-btn");
-const deleteBtn = document.querySelector(".delete-icon");
 
-const setLocalStorage = (result) => {
-  localStorage.setItem("task", JSON.stringify(result));
+const todos = JSON.parse(localStorage.getItem("task")) || []
+function savedTodo() {  
+  localStorage.setItem("task", JSON.stringify(todos));
 };
 
-const getLocalStorage = () => {
-  return JSON.parse(localStorage.getItem("task")) || [];
-};
+let editingIndx = null
 
-let result = [];
+function createTodo(todo, indx) {
 
-const showTask = () => {
-  let tasks = getLocalStorage() || result;
+  const li = document.createElement("li")
+  li.className = "todo-items"
 
-  const taskItems = document.createElement("li");
-  taskItems.classList.add("todo-items");
+  const textSpan = document.createElement("span")
+  textSpan.textContent = todo.text
 
-  tasks.forEach((item, indx) => {
-    taskItems.innerHTML = `${indx + 1}. ${item.task} <i class="ri-delete-bin-5-fill delete-icon"></i>`;
-  });
+  const deleteBtn = document.createElement("i")
+  deleteBtn.className = ("ri-close-line")
 
-  taskList.appendChild(taskItems);
-};
-
-const addTask = (e) => {
-  e.preventDefault();
-
-  if (taskInp.value == "") return;
-
-  let updatedTask = { task: taskInp.value, date: Date.now() };
-  result.push(updatedTask);
-  setLocalStorage(result);
-
-  showTask();
-
-  taskInp.value = "";
-};
-
-const deleteTask = (index) => {
-    result.splice(index,1)
+  deleteBtn.addEventListener("click", (e) => {
+    e.preventDefault()
+    todos.splice(indx, 1)
+    savedTodo()
     showTask()
+  })
+
+  li.appendChild(textSpan)
+  li.appendChild(deleteBtn)
+  return li
 };
 
-addBtn.addEventListener("click", addTask);
-taskInp.addEventListener("keydown", (e) => {
+function showTask() {
+  taskList.innerHTML = ""
+
+  todos.forEach((todo, indx) => {
+    const node = createTodo(todo, indx)
+    taskList.appendChild(node)
+  })
+};
+
+function pushTask() {
+  let text = taskInp.value.trim()
+  if (!text) return
+
+  if (editingIndx == null) {
+    todos.push({ text, completed: false })
+  } else {
+    todos[editingIndx].text = text
+    editingIndx = null
+  }
+  
+  savedTodo()
+  showTask()
+  taskInp.value = ""
+}
+
+addBtn.addEventListener("click", pushTask);
+document.addEventListener("keydown", (e) => {
   if (e.key == "Enter") {
     e.preventDefault();
-    addTask(e);
+    pushTask();
   }
 });
+showTask()
