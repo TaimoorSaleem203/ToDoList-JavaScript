@@ -1,67 +1,63 @@
 const taskInp = document.querySelector(".todo-input");
+const taskSearch = document.querySelector(".todo-search");
 const taskList = document.querySelector(".todo-list");
+const searchBar = document.querySelector(".searchbar")
 const addBtn = document.querySelector(".add-btn");
+const deleteBtn = document.querySelector(".delete-icon")
 
-const todos = JSON.parse(localStorage.getItem("task")) || []
-function savedTodo() {  
-  localStorage.setItem("task", JSON.stringify(todos));
-};
+let todo = []
 
-let editingIndx = null
+addBtn.addEventListener("click", (e) => {
+  e.preventDefault()
+  if (!taskInp.value) return
 
-function createTodo(todo, indx) {
+  addTask()
+})
 
-  const li = document.createElement("li")
-  li.className = "todo-items"
-
-  const textSpan = document.createElement("span")
-  textSpan.textContent = todo.text
-
-  const deleteBtn = document.createElement("i")
-  deleteBtn.className = ("ri-close-line")
-
-  deleteBtn.addEventListener("click", (e) => {
-    e.preventDefault()
-    todos.splice(indx, 1)
-    savedTodo()
-    showTask()
-  })
-
-  li.appendChild(textSpan)
-  li.appendChild(deleteBtn)
-  return li
-};
-
-function showTask() {
-  taskList.innerHTML = ""
-
-  todos.forEach((todo, indx) => {
-    const node = createTodo(todo, indx)
-    taskList.appendChild(node)
-  })
-};
-
-function pushTask() {
-  let text = taskInp.value.trim()
-  if (!text) return
-
-  if (editingIndx == null) {
-    todos.push({ text, completed: false })
-  } else {
-    todos[editingIndx].text = text
-    editingIndx = null
+taskList.addEventListener("click", (e) => {
+  if (e.target.classList.contains("delete-icon")) {
+    const indx = e.target.parentElement.getAttribute("data-id")
+    deleteTask(indx)
   }
-  
-  savedTodo()
-  showTask()
-  taskInp.value = ""
+})
+
+function addStorage() {
+  localStorage.setItem("list", JSON.stringify(todo))
 }
 
-addBtn.addEventListener("click", pushTask);
-document.addEventListener("keydown", (e) => {
-  if (e.key == "Enter") {
-    e.preventDefault();
-    pushTask();
-  }
-});
-showTask()
+function getStorage() {
+  let saved = localStorage.getItem("list")
+  if (saved != null) todo = JSON.parse(saved)
+}
+
+function displayTask() {
+  taskList.innerHTML = "" // Avoid Duplication , Clears Previous UI
+
+  todo.map((item, indx) => {
+    const li = document.createElement("li")
+    li.className = "todo-items"
+
+    li.innerHTML = `${item.task}<br/><button data-id="${indx}"><i class="ri-close-line delete-icon"></i></button>`
+    
+    taskList.appendChild(li)
+  })
+}
+
+function addTask() {
+  todo.push({ task: taskInp.value, date: Date.now() })
+  taskInp.value = ""
+
+  addStorage()
+  displayTask()
+}
+
+function deleteTask(indx) {
+  todo.splice(indx, 1)
+
+  addStorage()
+  displayTask()
+}
+
+
+getStorage()
+displayTask()
