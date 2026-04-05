@@ -2,6 +2,8 @@ const taskInp = document.querySelector(".todo-input");
 const searchBar = document.querySelector(".todo-search");
 const taskList = document.querySelector(".todo-list");
 const addBtn = document.querySelector(".add-btn");
+const filterOption = document.querySelector(".filter-option")
+const filterIcon = document.querySelector(".filter-icon")
 
 let todo = []
 let editingIndex = null
@@ -13,23 +15,58 @@ addBtn.addEventListener("click", (e) => {
   addTask()
 })
 
-searchBar.addEventListener("input",(e)=>{
+filterIcon.addEventListener("click", (e) => {
+  e.preventDefault()
+
+  if (filterIcon.classList.contains("ri-filter-line")) {
+    filterIcon.classList.replace("ri-filter-line", "ri-filter-fill")
+    filterOption.style.display = "block"
+  } else {
+    filterIcon.classList.replace("ri-filter-fill", "ri-filter-line")
+    filterOption.style.display = "none"
+  }
+
+})
+
+let options = filterOption.querySelectorAll("input")
+
+options.forEach((option) => {
+  option.addEventListener("change", () => {  
+
+    options.forEach((opt) => {
+      if (opt!==option) opt.checked = false
+    })
+    
+    let filteredTask = [...todo]
+  
+    if(option.checked){
+      if (option.classList.contains("completed")) {
+        filteredTask = todo.filter(item => item.completed) 
+      } else if (option.classList.contains("pending")) {
+        filteredTask = todo.filter(item => !item.completed) 
+      }
+    }
+
+    displayTask(filteredTask)
+  })
+})
+
+searchBar.addEventListener("input", (e) => {
 
   const value = e.target.value.toLowerCase()
-  const filtered = todo.filter((item,index)=>item.task.toLowerCase().includes(value))
+  const filtered = todo.filter((item, index) => item.task.toLowerCase().includes(value))
 
   displayTask(filtered)
 })
-
 
 taskList.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-icon")) {
 
     const indx = e.target.parentElement.getAttribute("data-id")
     if (editingIndex == null) {
-      deleteTask(indx)       
+      deleteTask(indx)
     }
-                   
+
   } else if (e.target.classList.contains("edit-icon")) {
 
     const indx = e.target.parentElement.getAttribute("data-id")
@@ -37,14 +74,19 @@ taskList.addEventListener("click", (e) => {
     addBtn.textContent = "Update"
     editingIndex = indx
 
-  }else if (e.target.classList.contains("check-icon")){
+  } else if (e.target.classList.contains("check-icon")) {
 
     const taskEl = e.target.closest(".todo-items")
-    const text = taskEl.querySelector(".todo-text")  
+    const text = taskEl.querySelector(".todo-text")
+    const pending = taskEl.querySelector(".todo-pending")
     const indx = e.target.getAttribute("data-id")
-    
+
     todo[indx].completed = !todo[indx].completed
     text.classList.toggle("completed")
+    pending.textContent = `${todo[indx].completed ? "Completed" : "Pending"}`
+
+    addStorage()
+    displayTask(todo)
   }
 })
 
@@ -65,9 +107,9 @@ function displayTask(todo) {
     li.className = "todo-items"
 
     li.innerHTML = `
-                    <div class="todo-pending"></div>
-                    <p class="todo-text">${item.task}</p>
-                    <input data-id="${indx}" type="checkbox" class="check-icon" />
+                    <p class="todo-pending">${item.completed ? "Completed" : "Pending"}</p>
+                    <p class="todo-text ${item.completed ? "completed" : ""}">${item.task}</p>
+                    <input data-id="${indx}" ${item.completed ? "checked" : ""} type="checkbox" class="check-icon" />
                     <button data-id="${indx}"><i class="ri-close-line delete-icon"></i></button>
                     <button data-id="${indx}"><i class="ri-edit-line edit-icon"></i></button>`
 
@@ -84,7 +126,7 @@ function addTask() {
     editingIndex = null
 
   } else {
-    todo.push({ task: taskInp.value, date: Date.now(), completed:false })
+    todo.push({ task: taskInp.value, date: Date.now(), completed: false })
   }
 
   taskInp.value = ""
