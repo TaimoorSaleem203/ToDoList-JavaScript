@@ -6,7 +6,7 @@ const filterOption = document.querySelector(".filter-option")
 const filterIcon = document.querySelector(".filter-icon")
 
 let todo = []
-let editingIndex = null
+let editingID = null
 
 addBtn.addEventListener("click", (e) => {
   e.preventDefault()
@@ -65,26 +65,26 @@ taskList.addEventListener("click", (e) => {
 
   if (e.target.classList.contains("delete-icon")) {
 
-    const indx = e.target.parentElement.getAttribute("data-id")
-    if (editingIndex == null) {
-      deleteTask(indx)
+    const id = e.target.parentElement.getAttribute("data-id")
+    if (editingID == null) {
+      deleteTask(id)
     }
 
   } else if (e.target.classList.contains("edit-icon")) {
 
-    const indx = e.target.parentElement.getAttribute("data-id")
-    taskInp.value = todo[indx].task
+    const id = e.target.parentElement.getAttribute("data-id")
+    taskInp.value = todo.find((item)=>item.id==id).task
     addBtn.textContent = "Update"
-    editingIndex = indx
+    editingID = id
 
   } else if (e.target.classList.contains("check-icon")) {
 
     const taskEl = e.target.closest(".todo-items")
     const text = taskEl.querySelector(".todo-text")
     const pending = taskEl.querySelector(".todo-pending")
-    const indx = e.target.getAttribute("data-id")
+    const id = e.target.getAttribute("data-id")
 
-    let filterTodo = todo.find(item=>item.id==indx)
+    let filterTodo = todo.find(item=>item.id==id)
     filterTodo.completed = !filterTodo.completed
     text.classList.toggle("completed")
     pending.textContent = `${filterTodo.completed ? "Completed" : "Pending"}`
@@ -123,11 +123,11 @@ function displayTask(todo) {
 
 function addTask() {
 
-  if (editingIndex != null) {
+  if (editingID != null) {
 
-    todo[editingIndex].task = taskInp.value
+    todo.find((item)=>item.id==editingID).task = taskInp.value
     addBtn.textContent = "Add"
-    editingIndex = null
+    editingID = null
 
   } else {
     todo.push({id:Date.now(), task: taskInp.value, completed: false })
@@ -141,11 +141,11 @@ function addTask() {
 
 function deleteTask(id) {
   // At a specific indx remove 1 item
-  let filtered = [...todo]
-  filtered = todo.filter((item)=>item.id!=id)
+  let indx = (todo.findIndex(item=>item.id==id))
 
+  todo.splice(indx,1)
   addStorage()
-  displayTask(filtered)
+  displayTask(todo)
 }
 
 getStorage()
