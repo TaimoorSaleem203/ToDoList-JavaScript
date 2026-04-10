@@ -7,29 +7,68 @@
   <title>ToDo</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 
 <body>
+  <div class="bg-grid"></div>
+
   <section class="section-container">
+
+    <header class="app-header">
+      <div class="header-icon"><i class="ri-checkbox-circle-line"></i></div>
+      <div>
+        <h1 class="heading">My Tasks</h1>
+        <p class="subheading">Stay focused, get things done.</p>
+      </div>
+    </header>
+
+    <div class="stats-row">
+      <div class="stat-card" id="statTotal">
+        <span class="stat-num">0</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat-card" id="statPending">
+        <span class="stat-num">0</span>
+        <span class="stat-label">Pending</span>
+      </div>
+      <div class="stat-card" id="statDone">
+        <span class="stat-num">0</span>
+        <span class="stat-label">Done</span>
+      </div>
+    </div>
+
     <form action="" class="form-container">
-      <h1 class="heading">To-Do List</h1>
-      <div class="todo-container">
-        <input type="text" placeholder="Search" class="todo-search">
-        <i class="ri-filter-line filter-icon"></i>
-        <div class="filter-option">
-          <span><input type="checkbox" class="all">All</span>
-          <span><input type="checkbox" class="pending">Pending</span>
-          <span><input type="checkbox" class="completed">Completed</span>
+
+      <div class="input-group">
+        <div class="search-wrap">
+          <i class="ri-search-line search-icon-inp"></i>
+          <input type="text" placeholder="Search tasks…" class="todo-search">
         </div>
-        <br>
-        <input type="text" placeholder="Task" class="todo-input" />
+        <div class="filter-wrap">
+          <button type="button" class="filter-toggle-btn">
+            <i class="ri-filter-line filter-icon"></i>
+            <span>Filter</span>
+          </button>
+          <div class="filter-option">
+            <span><input type="checkbox" class="all"> All</span>
+            <span><input type="checkbox" class="pending"> Pending</span>
+            <span><input type="checkbox" class="completed"> Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="add-row">
+        <input type="text" placeholder="Add a new task…" class="todo-input" />
         <button type="button" class="add-btn">Add</button>
       </div>
+
     </form>
+
     <ul class="todo-list"></ul>
+    
   </section>
 
   <script src="script.js"></script>
 </body>
-
 </html>
