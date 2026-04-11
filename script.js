@@ -4,6 +4,8 @@ const taskList = document.querySelector(".todo-list");
 const addBtn = document.querySelector(".add-btn");
 const filterOption = document.querySelector(".filter-option")
 const filterIcon = document.querySelector(".filter-icon")
+const filterBtn = document.querySelector(".filter-toggle-btn")
+
 
 let todo = []
 let editingID = null
@@ -15,7 +17,7 @@ addBtn.addEventListener("click", (e) => {
   addTask()
 })
 
-filterIcon.addEventListener("click", (e) => {
+filterBtn.addEventListener("click", (e) => {
   e.preventDefault()
 
   if (filterIcon.classList.contains("ri-filter-line")) {
@@ -75,6 +77,7 @@ taskList.addEventListener("click", function (e) {
 
     addStorage()
     displayTask(todo)
+    updateStat(todo)
   }
 
   const btn = e.target.closest("button")
@@ -83,9 +86,13 @@ taskList.addEventListener("click", function (e) {
 
     if (btn.querySelector(".edit-icon")) {
       const id = btn.getAttribute("data-id")
-      taskInp.value = todo.find((item) => item.id == id).task
-      addBtn.textContent = "Update"
-      editingID = id
+      const todoTask = todo.find((item) => item.id == id)
+      if(todoTask.completed) return
+      else{
+        editingID = id
+        taskInp.value = todoTask.task
+        addBtn.textContent = "Update"
+      }
 
     }
     else if (btn.querySelector(".delete-icon")) {
@@ -94,7 +101,6 @@ taskList.addEventListener("click", function (e) {
       if (editingID == null) {
         deleteTask(indx)
       }
-
     }
 
   }
@@ -143,7 +149,7 @@ function addTask() {
 
   addStorage()
   displayTask(todo)
-  updateStat()
+  updateStat(todo)
 }
 
 function deleteTask(indx) {
@@ -154,7 +160,7 @@ function deleteTask(indx) {
 
   addStorage()
   displayTask(todo)
-  updateStat()
+  updateStat(todo)
 }
 
 function displayEmpty(){
@@ -180,25 +186,24 @@ function toggleEmpty(){
 }
 
 function removeEl(){
-  const element = document.querySelector(".emptyState")
-  if(element) element.remove()
+  const el = document.querySelector(".emptyState")
+  if(el) el.remove()
 }
 
-function updateStat(){
+function updateStat(todo){
   const statTotal = document.querySelector('#statTotal .stat-num')
   const statPending = document.querySelector('#statPending .stat-num')
   const statDone = document.querySelector('#statDone .stat-num')
 
-  let completed = todo.filter((item)=>{item.completed})
-  let pending = todo.filter((item)=>{!item.completed})
-
+  let completed = todo.filter((item)=>item.completed)
+  let pending = todo.filter((item)=>!item.completed)
+  
   statTotal.textContent = todo.length
   statPending.textContent = pending.length
   statDone.textContent = completed.length
-  
 }
-
 
 getStorage()
 displayTask(todo)
 toggleEmpty() 
+updateStat(todo)
