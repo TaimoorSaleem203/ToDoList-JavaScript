@@ -6,7 +6,6 @@ const filterOption = document.querySelector(".filter-option")
 const filterIcon = document.querySelector(".filter-icon")
 const filterBtn = document.querySelector(".filter-toggle-btn")
 
-
 let todo = []
 let editingID = null
 
@@ -156,7 +155,7 @@ function deleteTask(indx) {
   // At a specific indx remove 1 item
   todo.splice(indx, 1)
 
-  if(todo.length==0) toggleEmpty()
+  toggleEmpty()
 
   addStorage()
   displayTask(todo)
@@ -178,9 +177,9 @@ function displayEmpty(){
 function toggleEmpty(){
   const existing = document.querySelector(".emptyState")
 
-  if(todo.length == 0){
+  if (todo.length == 0) {
     if(!existing) displayEmpty()
-  }else {
+  } else {
     if(existing) existing.remove()
   }
 }
