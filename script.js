@@ -11,7 +11,7 @@ let editingID = null
 
 addBtn.addEventListener("click", (e) => {
   e.preventDefault()
-  if (!taskInp.value) return
+  if (taskInp.value == "") return
 
   addTask()
 })
@@ -26,7 +26,6 @@ filterBtn.addEventListener("click", (e) => {
     filterIcon.classList.replace("ri-filter-fill", "ri-filter-line")
     filterOption.style.display = "none"
   }
-
 })
 
 let options = filterOption.querySelectorAll("input")
@@ -60,6 +59,7 @@ searchBar.addEventListener("input", (e) => {
   displayTask(filtered)
 })
 
+
 taskList.addEventListener("click", function (e) {
   e.preventDefault()
 
@@ -84,16 +84,52 @@ taskList.addEventListener("click", function (e) {
   if (btn) {
 
     if (btn.querySelector(".edit-icon")) {
+
+      const taskEl = btn.closest(".todo-items");
+      const input = taskEl.querySelector(".display-input");
+      const txt = taskEl.querySelector(".todo-text")
+      const editBtn = btn.querySelector("i")
+
       const id = btn.getAttribute("data-id")
       const todoTask = todo.find((item) => item.id == id)
-      if(todoTask.completed) return
-      else{
-        editingID = id
-        taskInp.value = todoTask.task
-        addBtn.textContent = "Update"
-      }
+
+      if (todoTask.completed) return
+
+      input.style.display = "flex"
+      txt.style.display = "none"
+      input.focus()
+
+      editBtn.classList.replace("ri-edit-line", "ri-check-line");
+      editBtn.classList.replace("edit-icon", "save-icon");
+      input.value = todoTask.task
+
+      editingID = id
 
     }
+    else if (btn.querySelector(".save-icon")) {
+      const taskEl = btn.closest(".todo-items");
+      const input = taskEl.querySelector(".display-input");
+      const txt = taskEl.querySelector(".todo-text")
+      const saveBtn = btn.querySelector("i")
+      const updatedValue = input.value
+
+      if (updatedValue.trim() !== "") {
+
+        const todoTask = todo.find(item => item.id == editingID)
+        todoTask.task = input.value
+        input.style.display = "none"
+        txt.style.display = "block"
+
+        saveBtn.classList.replace("ri-check-line", "ri-edit-line");
+        saveBtn.classList.replace("save-icon", "edit-icon");
+        
+        editingID = null
+
+        addStorage()
+        displayTask(todo)
+      }
+    }
+
     else if (btn.querySelector(".delete-icon")) {
       const id = btn.getAttribute("data-id")
       const indx = todo.findIndex(item => item.id == id)
@@ -124,6 +160,7 @@ function displayTask(todo) {
     li.innerHTML = `
                     <p class="todo-pending">${item.completed ? "Completed" : "Pending"}</p>
                     <p class="todo-text ${item.completed ? "completed" : ""}">${item.task}</p>
+                    <input data-id="${item.id}" class="display-input" type="text" />
                     <input data-id="${item.id}" ${item.completed ? "checked" : ""} type="checkbox" class="check-icon" />
                     <button data-id="${item.id}"><i class="ri-close-line delete-icon"></i></button>
                     <button data-id="${item.id}"><i class="ri-edit-line edit-icon"></i></button>`
@@ -135,14 +172,7 @@ function displayTask(todo) {
 function addTask() {
 
   removeEl()
-  if (editingID != null) {
-    todo.find((item) => item.id == editingID).task = taskInp.value
-    addBtn.textContent = "Add"
-    editingID = null
-
-  } else {
-    todo.push({ id: Date.now(), task: taskInp.value, completed: false })
-  }
+  todo.push({ id: Date.now(), task: taskInp.value, completed: false })
 
   taskInp.value = ""
 
@@ -162,41 +192,39 @@ function deleteTask(indx) {
   updateStat(todo)
 }
 
-function displayEmpty(){
+function displayEmpty() {
   const div = document.createElement("div")
   div.className = "emptyState"
 
-  div.innerHTML=`
+  div.innerHTML = `
       <i class="ri-inbox-line"></i>
       <p>No tasks yet. Add one above!</p>
     `
-  
+
   document.querySelector(".todo-list").insertAdjacentElement("afterend", div)
 }
 
-function toggleEmpty(){
+function toggleEmpty() {
   const existing = document.querySelector(".emptyState")
 
   if (todo.length == 0) {
-    if(!existing) displayEmpty()
-  } else {
-    if(existing) existing.remove()
+    if (!existing) displayEmpty()
   }
 }
 
-function removeEl(){
+function removeEl() {
   const el = document.querySelector(".emptyState")
-  if(el) el.remove()
+  if (el) el.remove()
 }
 
-function updateStat(todo){
+function updateStat(todo) {
   const statTotal = document.querySelector('#statTotal .stat-num')
   const statPending = document.querySelector('#statPending .stat-num')
   const statDone = document.querySelector('#statDone .stat-num')
 
-  let completed = todo.filter((item)=>item.completed)
-  let pending = todo.filter((item)=>!item.completed)
-  
+  let completed = todo.filter((item) => item.completed)
+  let pending = todo.filter((item) => !item.completed)
+
   statTotal.textContent = todo.length
   statPending.textContent = pending.length
   statDone.textContent = completed.length
@@ -204,5 +232,5 @@ function updateStat(todo){
 
 getStorage()
 displayTask(todo)
-toggleEmpty() 
+toggleEmpty()
 updateStat(todo)

@@ -460,6 +460,22 @@ button {
   font-weight: 500;
 }
 
+.display-input{
+  width: 500px;
+  display: none;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--border-md);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  font-family: var(--font);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
 /* ── Responsive ── */
 @media (max-width: 480px) {
   .section-container {
