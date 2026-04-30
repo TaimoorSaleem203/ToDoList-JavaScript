@@ -7,71 +7,82 @@
   <title>ToDo</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
 </head>
 
 <body>
-  <div class="bg-grid"></div>
-
   <section class="section-container">
 
-    <header class="app-header">
+    <!-- <header class="app-header">
       <div class="header-icon"><i class="ri-checkbox-circle-line"></i></div>
       <div>
         <h1 class="heading">My Tasks</h1>
         <p class="subheading">Stay focused, get things done.</p>
       </div>
-    </header>
-
-    <div class="stats-row">
-      <div class="stat-card" id="statTotal">
-        <span class="stat-num">0</span>
-        <span class="stat-label">Total</span>
-      </div>
-      <div class="stat-card" id="statPending">
-        <span class="stat-num">0</span>
-        <span class="stat-label">Pending</span>
-      </div>
-      <div class="stat-card" id="statDone">
-        <span class="stat-num">0</span>
-        <span class="stat-label">Done</span>
-      </div>
-    </div>
+    </header> -->
 
     <form action="" class="form-container">
-
-      <div class="input-group">
-        <div class="search-wrap">
-          <i class="ri-search-line search-icon-inp"></i>
-          <input type="text" placeholder="Search tasks…" class="todo-search">
-        </div>
-        <div class="filter-wrap">
-          <button type="button" class="filter-toggle-btn">
-            <i class="ri-filter-line filter-icon"></i>
-            <span>Filter</span>
-          </button>
-          <div class="filter-option">
-            <span><input type="checkbox" class="all"> All</span>
-            <span><input type="checkbox" class="pending"> Pending</span>
-            <span><input type="checkbox" class="completed"> Completed</span>
-          </div>
-        </div>
+      <div class="input-container">
+        <label class="input-head">Task</label>
+        <input type="text" class="todo-input" placeholder="Enter Task">
+        <p class="input-sub">Please enter task</p>
       </div>
-
-      <div class="add-row">
-        <input type="text" placeholder="Add a new task…" class="todo-input" />
-        <button type="button" class="add-btn">Add</button>
+      <div class="input-container">
+        <label class="input-head">Due Date</label>
+        <input type="date" class="input-date">
+        <p class="input-sub">Please select due date</p>
       </div>
-
+      <div class="input-container">
+        <label class="input-head">Active</label>
+        <input type="checkbox" class="input-active">
+        <br>
+      </div>
+      <div class="input-container">
+        <label class="input-head">Status</label>
+        <select name="status" class="status-bar">
+          <option value="--Select--">--Select--</option>
+          <option value="notstarted">Not Started</option>
+          <option value="inprogress">In progress</option>
+          <option value="completed">Completed</option>
+          <option value="waiting">Waiting on someone else</option>
+          <option value="deferred">Deferred</option>
+        </select>
+        <p class="input-sub">Please Select Status</p>
+      </div>
+      <div class="input-container">
+        <label class="input-head">Priority</label>
+        <select name="status" class="priority-bar">
+          <option value="--Select--">--Select--</option>
+          <option value="notstarted">Low</option>
+          <option value="inprogress">Normal</option>
+          <option value="completed">High</option>
+        </select>
+        <p class="input-sub">Please select priority</p>
+      </div>
+      <button class="add-btn">Add</button>
     </form>
+<!-- 
+    <table>
+      <tr>
+        <th>Task</th>
+        <th>Due Date</th>
+        <th>Created Date</th>
+        <th>Active Status</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      <tr class="todo-list">
+      </tr>
+    </table> -->
 
-    <ul class="todo-list">
-      <!-- <li class="todo-items"><p>Todo</p></li>
-      <li class="todo-items"><p>Proud</p></li> -->
-    </ul>
-    
+
   </section>
 
   <script src="script.js"></script>
 </body>
+
 </html>

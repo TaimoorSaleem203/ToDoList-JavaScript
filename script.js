@@ -154,10 +154,10 @@ function displayTask(todo) {
   taskList.innerHTML = "" // Avoid Duplication , Clears Previous UI
 
   todo.map((item, indx) => {
-    const li = document.createElement("li")
-    li.className = "todo-items"
+    const td = document.createElement("td")
+    td.className = "todo-items"
 
-    li.innerHTML = `
+    td.innerHTML = `
                     <p class="todo-pending">${item.completed ? "Completed" : "Pending"}</p>
                     <p class="todo-text ${item.completed ? "completed" : ""}">${item.task}</p>
                     <input data-id="${item.id}" class="display-input" type="text" />
@@ -165,7 +165,7 @@ function displayTask(todo) {
                     <button data-id="${item.id}"><i class="ri-close-line delete-icon"></i></button>
                     <button data-id="${item.id}"><i class="ri-edit-line edit-icon"></i></button>`
 
-    taskList.appendChild(li)
+    taskList.appendChild(td)
   })
 }
 
