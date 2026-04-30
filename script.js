@@ -1,4 +1,5 @@
 const taskInp = document.querySelector(".todo-input");
+const taskDate = document.querySelector(".input-date");
 const searchBar = document.querySelector(".todo-search");
 const taskList = document.querySelector(".todo-list");
 const addBtn = document.querySelector(".add-btn");
@@ -16,48 +17,48 @@ addBtn.addEventListener("click", (e) => {
   addTask()
 })
 
-filterBtn.addEventListener("click", (e) => {
-  e.preventDefault()
+// filterBtn.addEventListener("click", (e) => {
+//   e.preventDefault()
 
-  if (filterIcon.classList.contains("ri-filter-line")) {
-    filterIcon.classList.replace("ri-filter-line", "ri-filter-fill")
-    filterOption.style.display = "block"
-  } else {
-    filterIcon.classList.replace("ri-filter-fill", "ri-filter-line")
-    filterOption.style.display = "none"
-  }
-})
+//   if (filterIcon.classList.contains("ri-filter-line")) {
+//     filterIcon.classList.replace("ri-filter-line", "ri-filter-fill")
+//     filterOption.style.display = "block"
+//   } else {
+//     filterIcon.classList.replace("ri-filter-fill", "ri-filter-line")
+//     filterOption.style.display = "none"
+//   }
+// })
 
-let options = filterOption.querySelectorAll("input")
+// let options = filterOption.querySelectorAll("input")
 
-options.forEach((option) => {
-  option.addEventListener("change", () => {
+// options.forEach((option) => {
+//   option.addEventListener("change", () => {
 
-    options.forEach((opt) => {
-      if (opt !== option) opt.checked = false
-    })
+//     options.forEach((opt) => {
+//       if (opt !== option) opt.checked = false
+//     })
 
-    let filteredTask = [...todo]
+//     let filteredTask = [...todo]
 
-    if (option.checked) {
-      if (option.classList.contains("completed")) {
-        filteredTask = todo.filter(item => item.completed)
-      } else if (option.classList.contains("pending")) {
-        filteredTask = todo.filter(item => !item.completed)
-      }
-    }
+//     if (option.checked) {
+//       if (option.classList.contains("completed")) {
+//         filteredTask = todo.filter(item => item.completed)
+//       } else if (option.classList.contains("pending")) {
+//         filteredTask = todo.filter(item => !item.completed)
+//       }
+//     }
 
-    displayTask(filteredTask)
-  })
-})
+//     displayTask(filteredTask)
+//   })
+// })
 
-searchBar.addEventListener("input", (e) => {
+// searchBar.addEventListener("input", (e) => {
 
-  const value = e.target.value.toLowerCase()
-  const filtered = todo.filter((item, index) => item.task.toLowerCase().includes(value))
+//   const value = e.target.value.toLowerCase()
+//   const filtered = todo.filter((item, index) => item.task.toLowerCase().includes(value))
 
-  displayTask(filtered)
-})
+//   displayTask(filtered)
+// })
 
 
 taskList.addEventListener("click", function (e) {
@@ -76,7 +77,7 @@ taskList.addEventListener("click", function (e) {
 
     addStorage()
     displayTask(todo)
-    updateStat(todo)
+    // updateStat(todo)
   }
 
   const btn = e.target.closest("button")
@@ -158,10 +159,11 @@ function displayTask(todo) {
     td.className = "todo-items"
 
     td.innerHTML = `
-                    <p class="todo-pending">${item.completed ? "Completed" : "Pending"}</p>
+                   
                     <p class="todo-text ${item.completed ? "completed" : ""}">${item.task}</p>
-                    <input data-id="${item.id}" class="display-input" type="text" />
-                    <input data-id="${item.id}" ${item.completed ? "checked" : ""} type="checkbox" class="check-icon" />
+                    <p class="todo-text" >${item.due_date}</p>
+                    <p class="todo-text" >${item.issue_date}</p>
+                    
                     <button data-id="${item.id}"><i class="ri-close-line delete-icon"></i></button>
                     <button data-id="${item.id}"><i class="ri-edit-line edit-icon"></i></button>`
 
@@ -172,13 +174,17 @@ function displayTask(todo) {
 function addTask() {
 
   removeEl()
-  todo.push({ id: Date.now(), task: taskInp.value, completed: false })
+
+  let [monthIssue,dayIssue,yearIssue] = new Date().toDateString().split(" ").slice(1)
+  let [monthDue,dayDue,yearDue] = new Date(taskDate.value).toDateString().split(" ").slice(1,4)
+
+  todo.push({ id: Date.now(), task: taskInp.value, issue_date: `${dayIssue} ${monthIssue} ${yearIssue}`, due_date:`${dayDue} ${monthDue} ${yearDue}`,active: false})
 
   taskInp.value = ""
 
   addStorage()
   displayTask(todo)
-  updateStat(todo)
+  // updateStat(todo)
 }
 
 function deleteTask(indx) {
@@ -189,7 +195,7 @@ function deleteTask(indx) {
 
   addStorage()
   displayTask(todo)
-  updateStat(todo)
+  // updateStat(todo)
 }
 
 function displayEmpty() {
@@ -217,20 +223,20 @@ function removeEl() {
   if (el) el.remove()
 }
 
-function updateStat(todo) {
-  const statTotal = document.querySelector('#statTotal .stat-num')
-  const statPending = document.querySelector('#statPending .stat-num')
-  const statDone = document.querySelector('#statDone .stat-num')
+// function updateStat(todo) {
+//   const statTotal = document.querySelector('#statTotal .stat-num')
+//   const statPending = document.querySelector('#statPending .stat-num')
+//   const statDone = document.querySelector('#statDone .stat-num')
 
-  let completed = todo.filter((item) => item.completed)
-  let pending = todo.filter((item) => !item.completed)
+//   let completed = todo.filter((item) => item.completed)
+//   let pending = todo.filter((item) => !item.completed)
 
-  statTotal.textContent = todo.length
-  statPending.textContent = pending.length
-  statDone.textContent = completed.length
-}
+//   statTotal.textContent = todo.length
+//   statPending.textContent = pending.length
+//   statDone.textContent = completed.length
+// }
 
 getStorage()
 displayTask(todo)
 toggleEmpty()
-updateStat(todo)
+// updateStat(todo)
