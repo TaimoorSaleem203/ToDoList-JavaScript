@@ -1,11 +1,16 @@
 const taskInp = document.querySelector(".todo-input");
 const taskDate = document.querySelector(".input-date");
+const taskActive = document.querySelector(".active-bar");
+const taskStatus = document.querySelector(".status-bar");
+const taskPriority = document.querySelector(".priority-bar");
+
 const searchBar = document.querySelector(".todo-search");
 const taskList = document.querySelector(".todo-list");
-const addBtn = document.querySelector(".add-btn");
 const filterOption = document.querySelector(".filter-option")
 const filterIcon = document.querySelector(".filter-icon")
 const filterBtn = document.querySelector(".filter-toggle-btn")
+
+const addBtn = document.querySelector(".add-btn");
 
 let todo = []
 let editingID = null
@@ -94,41 +99,15 @@ taskList.addEventListener("click", function (e) {
       const id = btn.getAttribute("data-id")
       const todoTask = todo.find((item) => item.id == id)
 
-      if (todoTask.completed) return
-
-      input.style.display = "flex"
-      txt.style.display = "none"
-      input.focus()
-
-      editBtn.classList.replace("ri-edit-line", "ri-check-line");
-      editBtn.classList.replace("edit-icon", "save-icon");
-      input.value = todoTask.task
-
+      taskInp.value = todoTask.task
+      taskDate.value = new Date(todoTask.due_date).toLocaleDateString().split("/").reverse().join("/").replace(/\//g, '-')
+      taskActive.value = todoTask.active
+      taskStatus.value = todoTask.status
+      taskPriority.value = todoTask.priority
+      
+      addBtn.textContent = "Update"
       editingID = id
 
-    }
-    else if (btn.querySelector(".save-icon")) {
-      const taskEl = btn.closest(".todo-items");
-      const input = taskEl.querySelector(".display-input");
-      const txt = taskEl.querySelector(".todo-text")
-      const saveBtn = btn.querySelector("i")
-      const updatedValue = input.value
-
-      if (updatedValue.trim() !== "") {
-
-        const todoTask = todo.find(item => item.id == editingID)
-        todoTask.task = input.value
-        input.style.display = "none"
-        txt.style.display = "block"
-
-        saveBtn.classList.replace("ri-check-line", "ri-edit-line");
-        saveBtn.classList.replace("save-icon", "edit-icon");
-        
-        editingID = null
-
-        addStorage()
-        displayTask(todo)
-      }
     }
 
     else if (btn.querySelector(".delete-icon")) {
@@ -158,14 +137,16 @@ function displayTask(todo) {
     const td = document.createElement("td")
     td.className = "todo-items"
 
-    td.innerHTML = `
-                   
+    td.innerHTML = ` 
                     <p class="todo-text ${item.completed ? "completed" : ""}">${item.task}</p>
                     <p class="todo-text" >${item.due_date}</p>
                     <p class="todo-text" >${item.issue_date}</p>
+                    <p class="todo-text" >${item.active}</p>
+                    <p class="todo-text" >${item.status}</p>
+                    <p class="todo-text" >${item.priority}</p>
+                    <button data-id="${item.id}"><i class="ri-edit-line edit-icon"></i></button>
+                    <button data-id="${item.id}"><i class="ri-close-line delete-icon"></i></button>`
                     
-                    <button data-id="${item.id}"><i class="ri-close-line delete-icon"></i></button>
-                    <button data-id="${item.id}"><i class="ri-edit-line edit-icon"></i></button>`
 
     taskList.appendChild(td)
   })
@@ -178,9 +159,26 @@ function addTask() {
   let [monthIssue,dayIssue,yearIssue] = new Date().toDateString().split(" ").slice(1)
   let [monthDue,dayDue,yearDue] = new Date(taskDate.value).toDateString().split(" ").slice(1,4)
 
-  todo.push({ id: Date.now(), task: taskInp.value, issue_date: `${dayIssue} ${monthIssue} ${yearIssue}`, due_date:`${dayDue} ${monthDue} ${yearDue}`,active: false})
+  if(editingID!=null){
+    let indx = todo.findIndex((item)=>item.id==editingID)
+
+    todo[indx].task = taskInp.value
+    todo[indx].due_date = `${dayDue} ${monthDue} ${yearDue}`
+    todo[indx].issue_date = `${dayIssue} ${monthIssue} ${yearIssue}`
+    todo[indx].active = taskActive.value
+    todo[indx].priority = taskPriority.value
+    
+    addBtn.textContent = "Save"
+    editingID = null 
+  }else{
+    todo.push({ id: Date.now(), task: taskInp.value, issue_date: `${dayIssue} ${monthIssue} ${yearIssue}`, due_date:`${dayDue} ${monthDue} ${yearDue}`,active: taskActive.value, status: taskStatus.value, priority: taskPriority.value})
+  }
 
   taskInp.value = ""
+  taskDate.value = ""
+  taskActive.value = "--Select--"
+  taskStatus.value = "--Select--"
+  taskPriority.value = "--Select--"
 
   addStorage()
   displayTask(todo)

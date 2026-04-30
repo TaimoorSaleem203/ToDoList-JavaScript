@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap');
 
-/* ── Reset & Base ── */
 * {
   padding: 0;
   margin: 0;
@@ -24,10 +23,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
-  width: 70%;
+  width: 80%;
   height: 70%;
-  border-radius: 50px;
+  border-radius: 20px;
   background-color: white;
   position: relative;
 }
@@ -36,15 +34,10 @@ body {
   display: flex;
   align-items: start;
   flex-direction: column;
-  gap: 50px;
+  gap: 30px;
   position: absolute;
   top: 50px;
-}
-
-.form-input {
-  display: flex;
-  align-items: center;
-  gap: 50px;
+  padding: 20px;
 }
 
 .input-container {
@@ -54,13 +47,21 @@ body {
   gap: 5px;
 }
 
+.form-input {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
 .input-head {
   font-size: 0.8rem;
 }
 
 .input-sub {
   color: rgb(199, 199, 199);
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 }
 
 input,
@@ -71,7 +72,7 @@ select {
   outline: none;
   font-size: 0.8rem;
   border-radius: 10px;
-  border-left: 8px solid rgb(0, 162, 255);
+  border-left: 8px solid #3699FF;
 }
 
 input::placeholder {
@@ -79,43 +80,60 @@ input::placeholder {
 }
 
 button {
-  padding: 6px 12px;
-  width: 80px;
-  background-color: rgb(0, 162, 255);
   outline: none;
   border: none;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   border-radius: 10px;
-  color: white;
+  background-color: transparent;
   cursor: pointer;
-  display: block;
+  color: black;
 }
 
 button:active {
   transform: scale(0.99);
 }
 
-table {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+table{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: center;
 }
 
-.todo-head {
+.tr-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: rgb(0, 162, 255);
-  gap: 80px;
+  background-color: #3699FF;
   padding: 12px;
+  font-size: 0.9rem;
   color: white;
+}
+
+.tr-head th:nth-child(1){
+  text-align: left;
+}
+
+.tr-head th:nth-child(2),
+.tr-head th:nth-child(3),
+.tr-head th:nth-child(4),
+.tr-head th:nth-child(5),
+.tr-head th:nth-child(6){
+  margin-left: 30px;
 }
 
 .todo-items{
   display: flex;
   align-items: center;
-  gap: 60px;
   justify-content: space-between;
+  gap: 2rem;
+  border: 1px solid rgba(199, 199, 199, 0.466);
+  padding: 9px 12px;
+}
+
+.todo-text{
+  font-size: 0.9rem;
 }
 
 .emptyState{
@@ -126,8 +144,14 @@ table {
   gap: 10px;
   margin-top: 30px;
   color: rgb(199, 199, 199);
+  font-size: 0.9rem;
 }
-
 .emptyState i{
-  font-size: 2rem;
+  font-size: 1.5rem;
+}
+.add-btn{
+  background-color:#3699FF;
+  color: white;
+  padding: 8px;
+  width: 100px;
 }

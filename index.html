@@ -17,13 +17,13 @@
 
     
     <form action="" class="form-container">
-      <header class="app-header">
+      <!-- <header class="app-header">
         <div class="header-icon"><i class="ri-checkbox-circle-line"></i></div>
         <div>
           <h1 class="heading">My Tasks</h1>
           <p class="subheading">Stay focused, get things done.</p>
         </div>
-      </header>
+      </header> -->
       <div class="form-input">
         <div class="input-container">
           <label class="input-head">Task</label>
@@ -37,18 +37,22 @@
         </div>
         <div class="input-container">
           <label class="input-head">Active</label>
-          <input type="checkbox" class="input-active">
-          <br>
+          <select name="status" class="active-bar">
+            <option value="--Select--">--Select--</option>
+            <option value="Active">Active</option>
+            <option value="Block">Block</option>
+          </select>
+          <p class="input-sub">Please Select Active</p>
         </div>
         <div class="input-container">
           <label class="input-head">Status</label>
           <select name="status" class="status-bar">
             <option value="--Select--">--Select--</option>
-            <option value="notstarted">Not Started</option>
-            <option value="inprogress">In progress</option>
-            <option value="completed">Completed</option>
-            <option value="waiting">Waiting on someone else</option>
-            <option value="deferred">Deferred</option>
+            <option value="Not Started">Not Started</option>
+            <option value="In progress">In progress</option>
+            <option value="Completed">Completed</option>
+            <option value="Waiting on someone else">Waiting on someone else</option>
+            <option value="Deferred">Deferred</option>
           </select>
           <p class="input-sub">Please Select Status</p>
         </div>
@@ -56,9 +60,9 @@
           <label class="input-head">Priority</label>
           <select name="status" class="priority-bar">
             <option value="--Select--">--Select--</option>
-            <option value="notstarted">Low</option>
-            <option value="inprogress">Normal</option>
-            <option value="completed">High</option>
+            <option value="Low">Low</option>
+            <option value="Normal">Normal</option>
+            <option value="High">High</option>
           </select>
           <p class="input-sub">Please select priority</p>
         </div>
@@ -68,18 +72,22 @@
         </div>
       </div>
       <table>
-        <tr class="todo-head">
-          <th>Task</th>
-          <th>Due Date</th>
-          <th>Created Date</th>
-          <th>Active</th>
-          <th>Status</th>
-          <th>Priority</th>
-          <th>Edit</th>
-          <th>Delete</th>
-        </tr>
-        <tr class="todo-list">
-        </tr>
+        <thead>
+          <tr class="tr-head">
+            <th>Task</th>
+            <th>Due Date</th>
+            <th>Created Date</th>
+            <th>Active</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="todo-list">
+          </tr>
+        </tbody>
       </table>
 
     </form>
