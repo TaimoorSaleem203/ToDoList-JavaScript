@@ -17,22 +17,22 @@ let editingID = null
 
 addBtn.addEventListener("click", (e) => {
   e.preventDefault()
-  if (taskInp.value == "") return
+  if (taskInp.value == '' || taskDate.value == '' || taskActive.value == '--Select--' || taskStatus.value == '--Select--' || taskPriority.value == '--Select--') return
 
   addTask()
 })
 
-// filterBtn.addEventListener("click", (e) => {
-//   e.preventDefault()
+filterBtn.addEventListener("click", (e) => {
+  e.preventDefault()
 
-//   if (filterIcon.classList.contains("ri-filter-line")) {
-//     filterIcon.classList.replace("ri-filter-line", "ri-filter-fill")
-//     filterOption.style.display = "block"
-//   } else {
-//     filterIcon.classList.replace("ri-filter-fill", "ri-filter-line")
-//     filterOption.style.display = "none"
-//   }
-// })
+  if (filterIcon.classList.contains("ri-filter-line")) {
+    filterIcon.classList.replace("ri-filter-line", "ri-filter-fill")
+    filterOption.style.display = "flex"
+  } else {
+    filterIcon.classList.replace("ri-filter-fill", "ri-filter-line")
+    filterOption.style.display = "none"
+  }
+})
 
 // let options = filterOption.querySelectorAll("input")
 
@@ -57,13 +57,13 @@ addBtn.addEventListener("click", (e) => {
 //   })
 // })
 
-// searchBar.addEventListener("input", (e) => {
+searchBar.addEventListener("input", (e) => {
 
-//   const value = e.target.value.toLowerCase()
-//   const filtered = todo.filter((item, index) => item.task.toLowerCase().includes(value))
+  const value = e.target.value.toLowerCase()
+  const filtered = todo.filter((item, index) => item.task.toLowerCase().includes(value))
 
-//   displayTask(filtered)
-// })
+  displayTask(filtered)
+})
 
 
 taskList.addEventListener("click", function (e) {
@@ -75,7 +75,7 @@ taskList.addEventListener("click", function (e) {
     const pending = taskEl.querySelector(".todo-pending")
     const id = e.target.getAttribute("data-id")
 
-    let filterTodo = todo.find(item => item.id == id)
+    let filterTodo = todo.find(item => item.id === parseInt(id))
     filterTodo.completed = !filterTodo.completed
     text.classList.toggle("completed")
     pending.textContent = `${filterTodo.completed ? "Completed" : "Pending"}`
@@ -97,14 +97,15 @@ taskList.addEventListener("click", function (e) {
       const editBtn = btn.querySelector("i")
 
       const id = btn.getAttribute("data-id")
-      const todoTask = todo.find((item) => item.id == id)
+      const todoTask = todo.find((item) => item.id === parseInt(id))
 
       taskInp.value = todoTask.task
-      taskDate.value = new Date(todoTask.due_date).toLocaleDateString().split("/").reverse().join("/").replace(/\//g, '-')
+      taskDate.value = todoTask.due_date
       taskActive.value = todoTask.active
       taskStatus.value = todoTask.status
       taskPriority.value = todoTask.priority
-      
+      taskDate.value = todoTask.due_date
+
       addBtn.textContent = "Update"
       editingID = id
 
@@ -112,7 +113,7 @@ taskList.addEventListener("click", function (e) {
 
     else if (btn.querySelector(".delete-icon")) {
       const id = btn.getAttribute("data-id")
-      const indx = todo.findIndex(item => item.id == id)
+      const indx = todo.findIndex(item => item.id === parseInt(id))
       if (editingID == null) {
         deleteTask(indx)
       }
@@ -131,47 +132,50 @@ function getStorage() {
 }
 
 function displayTask(todo) {
-  taskList.innerHTML = "" // Avoid Duplication , Clears Previous UI
+  
+  toggleEmpty()
 
-  todo.map((item, indx) => {
-    const td = document.createElement("td")
-    td.className = "todo-items"
-
-    td.innerHTML = ` 
-                    <p class="todo-text ${item.completed ? "completed" : ""}">${item.task}</p>
-                    <p class="todo-text" >${item.due_date}</p>
-                    <p class="todo-text" >${item.issue_date}</p>
-                    <p class="todo-text" >${item.active}</p>
-                    <p class="todo-text" >${item.status}</p>
-                    <p class="todo-text" >${item.priority}</p>
-                    <button data-id="${item.id}"><i class="ri-edit-line edit-icon"></i></button>
-                    <button data-id="${item.id}"><i class="ri-close-line delete-icon"></i></button>`
-                    
-
-    taskList.appendChild(td)
+  const fragment = document.createDocumentFragment()
+  
+  todo.forEach((item) => {
+    const tr = document.createElement("tr")
+    tr.className = "todo-items"
+    
+    tr.innerHTML = ` 
+    <td class="todo-text ${item.completed ? "completed" : ""}">${item.task}</td>
+    <td class="todo-text" >${item.due_date}</td>
+    <td class="todo-text" >${item.issue_date}</td>
+    <td class="todo-text" >${item.active}</td>
+    <td class="todo-text" >${item.status}</td>
+    <td class="todo-text" >${item.priority}</td>
+    <td><button data-id="${item.id}"><i class="ri-edit-line edit-icon"></i></button></td>
+    <td><button data-id="${item.id}"><i class="ri-close-line delete-icon"></i></button></td>`
+    
+    fragment.appendChild(tr)
   })
+
+  taskList.innerHTML = "" // Avoid Duplication , Clears Previous UI
+  taskList.appendChild(fragment)
 }
 
 function addTask() {
 
-  removeEl()
-
-  let [monthIssue,dayIssue,yearIssue] = new Date().toDateString().split(" ").slice(1)
-  let [monthDue,dayDue,yearDue] = new Date(taskDate.value).toDateString().split(" ").slice(1,4)
-
-  if(editingID!=null){
-    let indx = todo.findIndex((item)=>item.id==editingID)
+  let issueDate = new Date().toLocaleDateString().split("/").reverse().join("-")
+  
+  if (editingID != null) {
+    let indx = todo.findIndex((item) => item.id === parseInt(editingID))
 
     todo[indx].task = taskInp.value
-    todo[indx].due_date = `${dayDue} ${monthDue} ${yearDue}`
-    todo[indx].issue_date = `${dayIssue} ${monthIssue} ${yearIssue}`
+    todo[indx].due_date = taskDate.value
+    todo[indx].issue_date = issueDate
     todo[indx].active = taskActive.value
+    todo[indx].status = taskStatus.value
     todo[indx].priority = taskPriority.value
-    
+
     addBtn.textContent = "Save"
-    editingID = null 
-  }else{
-    todo.push({ id: Date.now(), task: taskInp.value, issue_date: `${dayIssue} ${monthIssue} ${yearIssue}`, due_date:`${dayDue} ${monthDue} ${yearDue}`,active: taskActive.value, status: taskStatus.value, priority: taskPriority.value})
+    editingID = null
+  } else {
+    todo.push({ id: Date.now(), task: taskInp.value, issue_date: issueDate, due_date: taskDate.value, active: taskActive.value, status: taskStatus.value, priority: taskPriority.value })
   }
 
   taskInp.value = ""
@@ -213,12 +217,9 @@ function toggleEmpty() {
 
   if (todo.length == 0) {
     if (!existing) displayEmpty()
+  }else{
+    if (existing)  existing.remove()
   }
-}
-
-function removeEl() {
-  const el = document.querySelector(".emptyState")
-  if (el) el.remove()
 }
 
 // function updateStat(todo) {

@@ -23,8 +23,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80%;
-  height: 70%;
+  width: 90%;
+  height: 80%;
   border-radius: 20px;
   background-color: white;
   position: relative;
@@ -51,6 +51,7 @@ body {
   width: 100%;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 20px;
 }
@@ -130,6 +131,12 @@ table{
   gap: 2rem;
   border: 1px solid rgba(199, 199, 199, 0.466);
   padding: 9px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.todo-items:hover{
+  background-color: rgba(199, 199, 199, 0.466);
 }
 
 .todo-text{
@@ -149,9 +156,21 @@ table{
 .emptyState i{
   font-size: 1.5rem;
 }
-.add-btn{
+.add-btn,.filter-toggle-btn{
   background-color:#3699FF;
   color: white;
   padding: 8px;
-  width: 100px;
+  width: 70px;
+}
+.filter-option{
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.493);
+  font-size: 0.8rem;
+  padding: 5px;
+  border-radius: 10px;
+  position: absolute;
+  top: -10px;
+  transform: translateX(-50px);
 }
