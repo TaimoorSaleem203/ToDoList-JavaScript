@@ -5,11 +5,12 @@ const taskStatus = document.querySelector(".status-bar");
 const taskPriority = document.querySelector(".priority-bar");
 
 const searchBar = document.querySelector(".todo-search");
+
 const taskList = document.querySelector(".todo-list");
 const filterOption = document.querySelector(".filter-option")
 const filterIcon = document.querySelector(".filter-icon")
-const filterBtn = document.querySelector(".filter-toggle-btn")
 
+const filterBtn = document.querySelector(".filter-toggle-btn")
 const addBtn = document.querySelector(".add-btn");
 
 let todo = []
@@ -21,6 +22,7 @@ addBtn.addEventListener("click", (e) => {
 
   addTask()
 })
+
 
 filterBtn.addEventListener("click", (e) => {
   e.preventDefault()
@@ -34,28 +36,30 @@ filterBtn.addEventListener("click", (e) => {
   }
 })
 
-// let options = filterOption.querySelectorAll("input")
+let options = filterOption.querySelectorAll("input")
 
-// options.forEach((option) => {
-//   option.addEventListener("change", () => {
+options.forEach((option) => {
+  option.addEventListener("change", () => {
 
-//     options.forEach((opt) => {
-//       if (opt !== option) opt.checked = false
-//     })
+    options.forEach((opt) => {
+      if (opt !== option) opt.checked = false
+    })
 
-//     let filteredTask = [...todo]
+    let filteredTask = [...todo]
 
-//     if (option.checked) {
-//       if (option.classList.contains("completed")) {
-//         filteredTask = todo.filter(item => item.completed)
-//       } else if (option.classList.contains("pending")) {
-//         filteredTask = todo.filter(item => !item.completed)
-//       }
-//     }
+    if (option.checked) {
+      if (option.classList.contains("completed")) {
+        filteredTask = todo.filter(item => item.status == "Completed")
+      } else if (option.classList.contains("progress")) {
+        filteredTask = todo.filter(item => item.status != "Completed")
+      }
+    }
 
-//     displayTask(filteredTask)
-//   })
-// })
+    displayTask(filteredTask)
+  })
+})
+
+
 
 searchBar.addEventListener("input", (e) => {
 
@@ -82,7 +86,6 @@ taskList.addEventListener("click", function (e) {
 
     addStorage()
     displayTask(todo)
-    // updateStat(todo)
   }
 
   const btn = e.target.closest("button")
@@ -104,7 +107,6 @@ taskList.addEventListener("click", function (e) {
       taskActive.value = todoTask.active
       taskStatus.value = todoTask.status
       taskPriority.value = todoTask.priority
-      taskDate.value = todoTask.due_date
 
       addBtn.textContent = "Update"
       editingID = id
@@ -132,15 +134,15 @@ function getStorage() {
 }
 
 function displayTask(todo) {
-  
+
   toggleEmpty()
 
   const fragment = document.createDocumentFragment()
-  
+
   todo.forEach((item) => {
     const tr = document.createElement("tr")
     tr.className = "todo-items"
-    
+
     tr.innerHTML = ` 
     <td class="todo-text ${item.completed ? "completed" : ""}">${item.task}</td>
     <td class="todo-text" >${item.due_date}</td>
@@ -150,7 +152,7 @@ function displayTask(todo) {
     <td class="todo-text" >${item.priority}</td>
     <td><button data-id="${item.id}"><i class="ri-edit-line edit-icon"></i></button></td>
     <td><button data-id="${item.id}"><i class="ri-close-line delete-icon"></i></button></td>`
-    
+
     fragment.appendChild(tr)
   })
 
@@ -161,7 +163,7 @@ function displayTask(todo) {
 function addTask() {
 
   let issueDate = new Date().toLocaleDateString().split("/").reverse().join("-")
-  
+
   if (editingID != null) {
     let indx = todo.findIndex((item) => item.id === parseInt(editingID))
 
@@ -186,7 +188,7 @@ function addTask() {
 
   addStorage()
   displayTask(todo)
-  // updateStat(todo)
+  updateStat(todo)
 }
 
 function deleteTask(indx) {
@@ -197,7 +199,7 @@ function deleteTask(indx) {
 
   addStorage()
   displayTask(todo)
-  // updateStat(todo)
+  updateStat(todo)
 }
 
 function displayEmpty() {
@@ -217,25 +219,25 @@ function toggleEmpty() {
 
   if (todo.length == 0) {
     if (!existing) displayEmpty()
-  }else{
-    if (existing)  existing.remove()
+  } else {
+    if (existing) existing.remove()
   }
 }
 
-// function updateStat(todo) {
-//   const statTotal = document.querySelector('#statTotal .stat-num')
-//   const statPending = document.querySelector('#statPending .stat-num')
-//   const statDone = document.querySelector('#statDone .stat-num')
+function updateStat(todo) {
+  const statTotal = document.querySelector('#statTotal .stat-num')
+  const statPending = document.querySelector('#statPending .stat-num')
+  const statDone = document.querySelector('#statDone .stat-num')
 
-//   let completed = todo.filter((item) => item.completed)
-//   let pending = todo.filter((item) => !item.completed)
+  let completed = todo.filter((item) => item.status == "Completed")
+  let progress = todo.filter((item) => item.status != "Completed")
 
-//   statTotal.textContent = todo.length
-//   statPending.textContent = pending.length
-//   statDone.textContent = completed.length
-// }
+  statTotal.textContent = todo.length
+  statPending.textContent = progress.length
+  statDone.textContent = completed.length
+}
 
 getStorage()
 displayTask(todo)
 toggleEmpty()
-// updateStat(todo)
+updateStat(todo)

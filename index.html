@@ -17,14 +17,36 @@
 
 
     <form action="" class="form-container">
-      <!-- <header class="app-header">
-        <div class="header-icon"><i class="ri-checkbox-circle-line"></i></div>
-        <div>
-          <h1 class="heading">My Tasks</h1>
-          <p class="subheading">Stay focused, get things done.</p>
+      <div class="stats-row">
+        <div class="stat-card" id="statTotal">
+          <span class="stat-num">0</span>
+          <span class="stat-label">Total</span>
         </div>
-      </header> -->
+        <div class="stat-card" id="statPending">
+          <span class="stat-num">0</span>
+          <span class="stat-label">Pending</span>
+        </div>
+        <div class="stat-card" id="statDone">
+          <span class="stat-num">0</span>
+          <span class="stat-label">Done</span>
+        </div>
+      </div>
       <div class="form-input">
+        <div class="input-container search-bar">
+          <label class="input-head">Search</label>
+          <input type="text" class="todo-search" placeholder="Search">
+          <p class="input-sub">Please search here</p>
+        </div>
+        <div class="filter-wrap">
+          <button type="button" class="filter-toggle-btn">
+            <i class="ri-filter-line filter-icon"></i>
+          </button>
+          <div class="filter-option">
+            <span><input type="checkbox" class="all"> All</span>
+            <span><input type="checkbox" class="progress">In Progress</span>
+            <span><input type="checkbox" class="completed"> Completed</span>
+          </div>
+        </div>
         <div class="input-container">
           <label class="input-head">Task</label>
           <input type="text" class="todo-input" placeholder="Enter Task">
@@ -67,33 +89,16 @@
           <p class="input-sub">Please select priority</p>
         </div>
 
-        <div class="input-container">
-          <label class="input-head">Search</label>
-          <input type="text" class="todo-search" placeholder="Search">
-          <p class="input-sub">Please search here</p>
-        </div>
-
         <div class="input-btn">
           <button class="add-btn">Save</button>
         </div>
 
 
-        <div class="filter-wrap input-btn">
-          <button type="button" class="filter-toggle-btn">
-            <i class="ri-filter-line filter-icon"></i>
+        <!-- <div class="input-btn">
+          <button type="button" class="search-toggle-btn">
+            <i class="ri-search-line search-icon"></i>
           </button>
-          <div class="filter-option">
-            <span><input type="checkbox" class="all"> All</span>
-            <span><input type="checkbox" class="pending"> Pending</span>
-            <span><input type="checkbox" class="completed"> Completed</span>
-          </div>
-        </div>
-
-        <div class="input-btn">
-          <button type="button" class="filter-toggle-btn">
-            <i class="ri-search-line"></i>
-          </button>
-        </div>
+        </div> -->
       </div>
       <table>
         <thead>

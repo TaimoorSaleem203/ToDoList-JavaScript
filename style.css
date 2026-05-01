@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap');
 
-* {
+*{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -47,6 +47,7 @@ body {
   gap: 5px;
 }
 
+
 .form-input {
   width: 100%;
   display: flex;
@@ -63,6 +64,10 @@ body {
 .input-sub {
   color: rgb(199, 199, 199);
   font-size: 0.8rem;
+}
+
+.todo-search{
+  position: relative;
 }
 
 input,
@@ -153,15 +158,18 @@ table{
   color: rgb(199, 199, 199);
   font-size: 0.9rem;
 }
+
 .emptyState i{
   font-size: 1.5rem;
 }
-.add-btn,.filter-toggle-btn{
+
+.add-btn,.search-toggle-btn{
   background-color:#3699FF;
   color: white;
   padding: 8px;
   width: 70px;
 }
+
 .filter-option{
   display: none;
   align-items: center;
@@ -171,6 +179,43 @@ table{
   padding: 5px;
   border-radius: 10px;
   position: absolute;
-  top: -10px;
+  left: 100px;
+  top: 60px;
   transform: translateX(-50px);
+}
+
+.filter-toggle-btn{
+  color: #3699FF;
+  position: absolute;
+  left: 160px;
+  top: 132px;
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+.active{
+  display: block;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.493);
+  font-size: 0.8rem;
+  border-radius: 10px;
+  position: absolute;
+  right: 10px;
+  top: 90px;
+}
+
+.stats-row{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.stat-card{
+  background-color: #3699FF;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  border-radius: 10px;
 }

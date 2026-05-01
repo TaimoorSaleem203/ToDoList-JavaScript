@@ -1,38 +1,25 @@
-        <div class="filter-wrap">
-          <button type="button" class="filter-toggle-btn">
-            <i class="ri-filter-line filter-icon"></i>
-            <span>Filter</span>
-          </button>
-          <div class="filter-option">
-            <span><input type="checkbox" class="all"> All</span>
-            <span><input type="checkbox" class="pending"> Pending</span>
-            <span><input type="checkbox" class="completed"> Completed</span>
-          </div>
-        </div>
+<div class="filter-wrap">
+  <button type="button" class="filter-toggle-btn">
+    <i class="ri-filter-line filter-icon"></i>
+    <span>Filter</span>
+  </button>
+  <div class="filter-option">
+    <span><input type="checkbox" class="all"> All</span>
+    <span><input type="checkbox" class="pending"> Pending</span>
+    <span><input type="checkbox" class="completed"> Completed</span>
+  </div>
+</div>
 
 
-                <div class="search-wrap">
-          <i class="ri-search-line search-icon-inp"></i>
-          <input type="text" placeholder="Search tasks…" class="todo-search">
-        </div>
+<div class="search-wrap">
+  <i class="ri-search-line search-icon"></i>
+  <input type="text" placeholder="Search tasks…" class="todo-search">
+</div>
 
 
-        
-    <div class="stats-row">
-      <div class="stat-card" id="statTotal">
-        <span class="stat-num">0</span>
-        <span class="stat-label">Total</span>
-      </div>
-      <div class="stat-card" id="statPending">
-        <span class="stat-num">0</span>
-        <span class="stat-label">Pending</span>
-      </div>
-      <div class="stat-card" id="statDone">
-        <span class="stat-num">0</span>
-        <span class="stat-label">Done</span>
-      </div>
-    </div>
 
-     <!-- <p class="todo-pending">${item.completed ? "Completed" : "Pending"}</p> -->
-      <input data-id="${item.id}" class="display-input" type="text" />
-                    <input data-id="${item.id}" ${item.completed ? "checked" : ""} type="checkbox" class="check-icon" />
+
+
+<!-- <p class="todo-pending">${item.completed ? "Completed" : "Pending"}</p> -->
+<input data-id="${item.id}" class="display-input" type="text" />
+<input data-id="${item.id}" ${item.completed ? "checked" : "" } type="checkbox" class="check-icon" />
