@@ -14,9 +14,8 @@
 
 <body>
   <section class="section-container">
-
-
     <form action="" class="form-container">
+      
       <div class="stats-row">
         <div class="stat-card" id="statTotal">
           <span class="stat-num">0</span>
@@ -31,20 +30,21 @@
           <span class="stat-label">Done</span>
         </div>
       </div>
+
       <div class="form-input">
         <div class="input-container search-bar">
           <label class="input-head">Search</label>
           <input type="text" class="todo-search" placeholder="Search">
           <p class="input-sub">Please search here</p>
-        </div>
-        <div class="filter-wrap">
-          <button type="button" class="filter-toggle-btn">
-            <i class="ri-filter-line filter-icon"></i>
-          </button>
-          <div class="filter-option">
-            <span><input type="checkbox" class="all"> All</span>
-            <span><input type="checkbox" class="progress">In Progress</span>
-            <span><input type="checkbox" class="completed"> Completed</span>
+          <div class="filter-wrap">
+            <button type="button" class="filter-toggle-btn">
+              <i class="ri-filter-line filter-icon"></i>
+            </button>
+            <div class="filter-option">
+              <span><input type="checkbox" class="all"> All</span>
+              <span><input type="checkbox" class="progress">In Progress</span>
+              <span><input type="checkbox" class="completed"> Completed</span>
+            </div>
           </div>
         </div>
         <div class="input-container">
@@ -73,8 +73,6 @@
             <option value="Not Started">Not Started</option>
             <option value="In progress">In progress</option>
             <option value="Completed">Completed</option>
-            <option value="Waiting on someone else">Waiting on someone else</option>
-            <option value="Deferred">Deferred</option>
           </select>
           <p class="input-sub">Please Select Status</p>
         </div>
@@ -92,14 +90,8 @@
         <div class="input-btn">
           <button class="add-btn">Save</button>
         </div>
-
-
-        <!-- <div class="input-btn">
-          <button type="button" class="search-toggle-btn">
-            <i class="ri-search-line search-icon"></i>
-          </button>
-        </div> -->
       </div>
+
       <table>
         <thead>
           <tr class="tr-head">

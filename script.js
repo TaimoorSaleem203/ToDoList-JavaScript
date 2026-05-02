@@ -139,7 +139,7 @@ function displayTask(todo) {
 
   const fragment = document.createDocumentFragment()
 
-  todo.forEach((item) => {
+  todo.forEach((item, indx) => {
     const tr = document.createElement("tr")
     tr.className = "todo-items"
 
@@ -147,14 +147,28 @@ function displayTask(todo) {
     <td class="todo-text ${item.completed ? "completed" : ""}">${item.task}</td>
     <td class="todo-text" >${item.due_date}</td>
     <td class="todo-text" >${item.issue_date}</td>
-    <td class="todo-text" >${item.active}</td>
-    <td class="todo-text" >${item.status}</td>
+    <td class="todo-text todo-active">${item.active}</td>
+    <td class="todo-text todo-status" >${item.status}</td>
     <td class="todo-text" >${item.priority}</td>
     <td><button data-id="${item.id}"><i class="ri-edit-line edit-icon"></i></button></td>
     <td><button data-id="${item.id}"><i class="ri-close-line delete-icon"></i></button></td>`
 
+    if (indx%2!=0) {
+      tr.style.background = "#369bff17"
+    }
+
+    if (item.active == "Active") {
+      tr.querySelector(".todo-active").style.color = "green"
+    } else {
+      tr.querySelector(".todo-active").style.color = "red"
+    }
+
+    tr.querySelector(".todo-active").style.fontWeight = "bold"
+
+
     fragment.appendChild(tr)
   })
+
 
   taskList.innerHTML = "" // Avoid Duplication , Clears Previous UI
   taskList.appendChild(fragment)
